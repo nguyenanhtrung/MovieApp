@@ -1,0 +1,59 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.example.movieguideapp'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.movieguideapp"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation(libs.bundles.navigation)
+    implementation(libs.bundles.viewModel)
+    implementation(libs.bundles.fastAdapter)
+    implementation(libs.bundles.httpClient)
+    implementation(libs.bundles.testing)
+    implementation(libs.constraintLayout)
+    implementation(libs.materialComponent)
+    implementation(libs.coreKtx)
+    implementation(libs.appCompats)
+    implementation(libs.dataStore)
+    implementation(libs.roomDatabase)
+    kapt libs.roomCompiler
+    implementation(libs.recyclerView)
+    implementation(libs.viewPager)
+    implementation(libs.glide)
+    kapt libs.glideCompiler
+    implementation(libs.coroutines)
+    implementation(libs.leakCanary)
+
+}
