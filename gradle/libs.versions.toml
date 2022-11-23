@@ -22,6 +22,7 @@ glide = "4.14.2"
 coroutines = "1.6.4"
 leakCanary = "2.10"
 fastAdapter = "5.7.0"
+kotlinSerialization = "1.4.1"
 [libraries]
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
@@ -50,11 +51,12 @@ coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", vers
 leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 fast-adapter=  { module = "com.mikepenz:fastadapter", version.ref = "fastAdapter"}
 load-more = { module = "com.mikepenz:fastadapter-extensions-scroll", version.ref = "fastAdapter"}
+kotlinSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 [bundles]
 navigation = ["navigation-ui-ktx", "navigation-fragment-ktx"]
 testing = ["junit", "android-test-junit", "espresso-test"]
 fastAdapter = ["fast-adapter", "load-more"]
-httpClient = ["retrofit", "kotlin-serialization-converter"]
+httpClient = ["retrofit", "kotlin-serialization-converter", "kotlinSerialization"]
 viewModel = ["view-model", "saved-state"]
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

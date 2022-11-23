@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -55,5 +57,6 @@ dependencies {
     kapt libs.glideCompiler
     implementation(libs.coroutines)
     implementation(libs.leakCanary)
-
+    implementation(libs.daggerHilt)
+    kapt libs.daggerCompiler
 }
