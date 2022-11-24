@@ -23,6 +23,7 @@ coroutines = "1.6.4"
 leakCanary = "2.10"
 fastAdapter = "5.7.0"
 kotlinSerialization = "1.4.1"
+circleIndicator = "2.1.6"
 [libraries]
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
@@ -52,10 +53,12 @@ leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.re
 fast-adapter=  { module = "com.mikepenz:fastadapter", version.ref = "fastAdapter"}
 load-more = { module = "com.mikepenz:fastadapter-extensions-scroll", version.ref = "fastAdapter"}
 kotlinSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+circleIndicator = { module = "me.relex:circleindicator", version.ref = "circleIndicator" }
+fastAdapterBinding = { module = "com.mikepenz:fastadapter-extensions-binding", version.ref = "fastAdapter"}
 [bundles]
 navigation = ["navigation-ui-ktx", "navigation-fragment-ktx"]
 testing = ["junit", "android-test-junit", "espresso-test"]
-fastAdapter = ["fast-adapter", "load-more"]
+fastAdapter = ["fast-adapter", "load-more", "fastAdapterBinding"]
 httpClient = ["retrofit", "kotlin-serialization-converter", "kotlinSerialization"]
 viewModel = ["view-model", "saved-state"]
 [plugins]

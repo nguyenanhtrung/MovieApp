@@ -1,5 +1,7 @@
 package com.example.movieguideapp.di.modules
 
+import com.example.movieguideapp.data.remote.api.MovieApiService
+import com.example.movieguideapp.data.remote.interceptor.CommonParamRequestInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -22,6 +24,7 @@ object NetworkingModule {
         return OkHttpClient.Builder()
             .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
             .callTimeout(TIME_OUT, TimeUnit.SECONDS)
+            .addInterceptor(CommonParamRequestInterceptor())
             .build()
     }
 
@@ -29,9 +32,14 @@ object NetworkingModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         val contentType = MediaType.get("application/json")
         return Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/4/")
+            .baseUrl("https://api.themoviedb.org/3/")
             .client(okHttpClient)
             .addConverterFactory(Json.asConverterFactory(contentType))
             .build()
+    }
+
+    @Provides
+    fun provideMovieApiService(retrofit: Retrofit): MovieApiService {
+        return retrofit.create(MovieApiService::class.java)
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvshow_graph"
+    app:startDestination="@id/tvShowHomePagerFragment">
+
+    <fragment
+        android:id="@+id/tvShowHomePagerFragment"
+        android:name="com.example.movieguideapp.ui.tvshowhome.TvShowHomePagerFragment"
+        android:label="fragment_tv_show_home_page"
+        tools:layout="@layout/fragment_tv_show_home_page" />
+</navigation>

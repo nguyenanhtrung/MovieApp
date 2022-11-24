@@ -59,4 +59,5 @@ dependencies {
     implementation(libs.leakCanary)
     implementation(libs.daggerHilt)
     kapt libs.daggerCompiler
+    implementation(libs.circleIndicator)
 }

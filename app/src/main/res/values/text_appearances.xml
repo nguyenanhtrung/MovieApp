@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <style name="App.Title.Large" parent="TextAppearance.Material3.TitleLarge">
+    </style>
+
+    <style name="App.Title.Medium" parent="TextAppearance.Material3.TitleMedium">
+
+    </style>
+
+    <style name="App.Body.Medium" parent="TextAppearance.Material3.BodyMedium">
+
+    </style>
+</resources>
