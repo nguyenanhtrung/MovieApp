@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.imageview.ShapeableImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/image_movie_banner"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:shapeAppearance="@style/RoundedImageShapeAppearance"
+    tools:src="@tools:sample/backgrounds/scenic"
+    android:scaleType="centerCrop"
+    android:layout_height="match_parent">
+
+</com.google.android.material.imageview.ShapeableImageView>

@@ -55,10 +55,11 @@ load-more = { module = "com.mikepenz:fastadapter-extensions-scroll", version.ref
 kotlinSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 circleIndicator = { module = "me.relex:circleindicator", version.ref = "circleIndicator" }
 fastAdapterBinding = { module = "com.mikepenz:fastadapter-extensions-binding", version.ref = "fastAdapter"}
+fastAdapterDiffUtil = { module = "com.mikepenz:fastadapter-extensions-diff", version.ref = "fastAdapter"}
 [bundles]
 navigation = ["navigation-ui-ktx", "navigation-fragment-ktx"]
 testing = ["junit", "android-test-junit", "espresso-test"]
-fastAdapter = ["fast-adapter", "load-more", "fastAdapterBinding"]
+fastAdapter = ["fast-adapter", "load-more", "fastAdapterBinding", "fastAdapterDiffUtil"]
 httpClient = ["retrofit", "kotlin-serialization-converter", "kotlinSerialization"]
 viewModel = ["view-model", "saved-state"]
 [plugins]

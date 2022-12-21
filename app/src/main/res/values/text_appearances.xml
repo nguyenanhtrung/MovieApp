@@ -10,4 +10,5 @@
     <style name="App.Body.Medium" parent="TextAppearance.Material3.BodyMedium">
 
     </style>
+
 </resources>

@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageUiData
 import com.example.movieguideapp.databinding.ItemHomePageMovieBinding
+import com.example.movieguideapp.extensions.loadAsync
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 
-class MovieHomePageItem(private val movieHomePageUiData: MovieHomePageUiData) :
+class MovieHomePageItem(val movieHomePageUiData: MovieHomePageUiData) :
     AbstractBindingItem<ItemHomePageMovieBinding>() {
 
 
@@ -24,5 +25,7 @@ class MovieHomePageItem(private val movieHomePageUiData: MovieHomePageUiData) :
         val rating = movieHomePageUiData.rating
         binding.ratingBarHomePageMovie.rating =
             if (rating > 5) (rating - 5).toFloat() else rating.toFloat()
+
+        binding.imageHomePageMovie.loadAsync(movieHomePageUiData.imageUrl)
     }
 }

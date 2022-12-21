@@ -31,29 +31,37 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     fun hideLoading() {
-        _loadingState.value = false
+        if (_loadingState.value) {
+            _loadingState.value = false
+        }
     }
 
 
     protected fun <P, R> executeUseCase(
         param: P,
         useCase: BaseUseCase<P, R>,
+        isShowLoading: Boolean,
         onSuccess: (data: R) -> Unit,
         onError: (code: Int, message: String) -> Unit = { code, message -> showError(message) },
         onFailure: (throwable: Throwable) -> Unit = { throwable -> throwable.printStackTrace() }
     ) {
         viewModelScope.launch {
             try {
-                when (val result = useCase.execute(param)) {
+                if (isShowLoading) showloading()
+                val result = useCase.execute(param)
+                hideLoading()
+                when (result) {
                     is WorkResult.Error -> onError(result.code, result.message)
                     is WorkResult.Failure -> onFailure(result.throwable)
                     is WorkResult.Success -> onSuccess(result.data)
                 }
             } catch (throwable: Throwable) {
+                hideLoading()
                 throwable.printStackTrace()
             }
         }
     }
+
 
     protected fun showError(message: String) {
         sendEvent(ViewModelEvent.MessageShowing(message))

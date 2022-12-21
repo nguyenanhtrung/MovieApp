@@ -3,11 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_graph"
+    android:label="Movies"
     app:startDestination="@id/movieHomePageFragment">
 
     <fragment
         android:id="@+id/movieHomePageFragment"
         android:name="com.example.movieguideapp.ui.moviehome.MovieHomePageFragment"
-        android:label="fragment_movie_home_page"
-        tools:layout="@layout/fragment_movie_home_page" />
+        android:label="Movies"
+        tools:layout="@layout/fragment_movie_home_page" >
+        <action
+            android:id="@+id/action_movieHomePageFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.example.movieguideapp.ui.moviedetail.MovieDetailFragment"
+        android:label="fragment_movie_detail"
+        tools:layout="@layout/fragment_movie_detail" >
+        <argument
+            android:name="movieDetailBasicInfo"
+            app:argType="com.example.movieguideapp.data.local.model.movie.MovieDetailBasicInfo" />
+    </fragment>
 </navigation>

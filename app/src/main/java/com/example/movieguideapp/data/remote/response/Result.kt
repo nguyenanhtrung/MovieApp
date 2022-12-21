@@ -13,7 +13,7 @@ data class Result(
     @SerialName("backdrop_path")
     val backdropPath: String?,
     @SerialName("genre_ids")
-    val genreIds: List<Int?>?,
+    val genreIds: List<Int?>? = null,
     @SerialName("id")
     val id: Int?,
     @SerialName("original_language")
