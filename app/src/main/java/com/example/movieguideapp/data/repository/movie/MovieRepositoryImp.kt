@@ -6,6 +6,7 @@ import com.example.movieguideapp.data.local.model.movie.MovieBanner
 import com.example.movieguideapp.data.local.model.movie.MovieDetailBasicInfo
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageUiData
 import com.example.movieguideapp.data.local.model.movie.MovieType
+import com.example.movieguideapp.data.local.model.movie.SimilarMovie
 import com.example.movieguideapp.data.remote.base.NetworkBoundResource
 import com.example.movieguideapp.data.remote.datasource.movie.MovieRemoteDataSource
 import com.example.movieguideapp.extensions.getOrEmpty
@@ -148,6 +149,23 @@ class MovieRepositoryImp @Inject constructor(private val remoteDataSource: Movie
             Pair("Budgets", movieDetailBasicInfo.budge.toString()),
             Pair("Runtime", movieDetailBasicInfo.runtime.toString()),
         )
+    }
+
+    override suspend fun getSimilarMovies(id: Int): WorkResult<List<SimilarMovie>> {
+        return object : NetworkBoundResource<Int, List<SimilarMovie>>() {
+            override suspend fun fetchFromNetwork(param: Int): List<SimilarMovie> {
+                val response = remoteDataSource.getSimilarMovies(param)
+                val movies = response.results ?: listOf()
+                return movies.map {
+                    SimilarMovie(id = it.id ?: 0, imageUrl = it.posterPath.getOrEmpty())
+                }
+            }
+
+            override suspend fun fetchFromLocal(param: Int): List<SimilarMovie> {
+                return listOf()
+            }
+
+        }.execute(id)
     }
 
 }

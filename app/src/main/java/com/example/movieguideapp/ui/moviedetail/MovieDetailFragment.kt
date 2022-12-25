@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieguideapp.data.local.model.cast.MovieDetailCastInfo
+import com.example.movieguideapp.data.local.model.movie.SimilarMovie
 import com.example.movieguideapp.databinding.FragmentMovieDetailBinding
 import com.example.movieguideapp.extensions.addHorizontalItemSpace
 import com.example.movieguideapp.extensions.loadAsync
@@ -19,6 +21,7 @@ import com.example.movieguideapp.ui.base.AppListAdapterImp
 import com.example.movieguideapp.ui.base.BaseFragment
 import com.example.movieguideapp.ui.base.BaseViewModel
 import com.example.movieguideapp.ui.home.MainViewModel
+import com.example.movieguideapp.utils.MarginItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -35,6 +38,7 @@ class MovieDetailFragment : BaseFragment() {
     private val navArgs: MovieDetailFragmentArgs by navArgs()
     private lateinit var castsAdapter: AppListAdapter<MovieDetailCastInfo>
     private lateinit var infoAdapter: AppListAdapter<Pair<String,String>>
+    private lateinit var similarMoviesAdapter: AppListAdapter<SimilarMovie>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +60,14 @@ class MovieDetailFragment : BaseFragment() {
         )
 
         viewModel.loadDetailInfo()
+
+        similarMoviesAdapter = AppListAdapterImp<SimilarMovie, SimilarMovieItem>(
+            listOf(),
+            transform = {
+                SimilarMovieItem(it)
+            }
+        )
+        viewModel.loadSimilarMovies()
     }
 
     override fun onCreateView(
@@ -85,6 +97,13 @@ class MovieDetailFragment : BaseFragment() {
 
         observeCasts()
         observeDetailInfo()
+        observeSimilarMovies()
+    }
+
+    private fun observeSimilarMovies() {
+        observeFlow(viewModel.similarMoviesFlow) {
+            similarMoviesAdapter.set(it)
+        }
     }
 
     private fun observeDetailInfo() {
@@ -102,6 +121,14 @@ class MovieDetailFragment : BaseFragment() {
 
             recyclerViewInfoMovieDetail.layoutManager = LinearLayoutManager(requireActivity())
             recyclerViewInfoMovieDetail.adapter = infoAdapter.getRecyclerViewAdapter()
+
+            with(recyclerViewSimilarMoviesDetail) {
+                layoutManager = GridLayoutManager(requireActivity(), 4)
+                clipToPadding = false
+                clipChildren = false
+                addItemDecoration(MarginItemDecoration(spaceSize = 8, spanCount = 4))
+                adapter = similarMoviesAdapter.getRecyclerViewAdapter()
+            }
         }
     }
 

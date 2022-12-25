@@ -28,6 +28,6 @@ interface MovieApiService {
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCasts(@Path("movie_id") id: Int): MovieDetailCastsResponse
 
-    @GET("/movie/{movie_id}/similar")
+    @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovies(@Path("movie_id") id: Int): MoviesResponse
 }
