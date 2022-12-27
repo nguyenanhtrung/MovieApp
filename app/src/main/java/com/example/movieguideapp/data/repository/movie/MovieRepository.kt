@@ -15,8 +15,6 @@ interface MovieRepository {
 
     suspend fun getTrendingMovies(): WorkResult<List<MovieBanner>>
 
-    fun getMovieBannerSlidePageFlow(): Flow<Int>
-
     suspend fun getMovieDetail(id: Int): WorkResult<MovieDetailBasicInfo>
 
     suspend fun getMovieCasts(id: Int): WorkResult<List<MovieDetailCastInfo>>

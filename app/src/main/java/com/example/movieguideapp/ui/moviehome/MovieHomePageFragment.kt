@@ -17,6 +17,7 @@ import com.example.movieguideapp.databinding.FragmentMovieHomePageBinding
 import com.example.movieguideapp.extensions.addHorizontalItemSpace
 import com.example.movieguideapp.extensions.mapTo
 import com.example.movieguideapp.extensions.observeFlow
+import com.example.movieguideapp.extensions.postDelay
 import com.example.movieguideapp.ui.base.AppListAdapter
 import com.example.movieguideapp.ui.base.AppListAdapterImp
 import com.example.movieguideapp.ui.base.BaseFragment
@@ -42,6 +43,12 @@ class MovieHomePageFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        observeSliderMovieBanner()
+        observeCategories()
+        observePopularMovies()
+        observeTopRatedMovies()
+
+
         movieBannerAdapter = AppListAdapterImp(
             listOf(),
             transform = { movieBanner ->
@@ -89,12 +96,10 @@ class MovieHomePageFragment : BaseFragment() {
         binding.circleIndicator.setViewPager(binding.viewPagerMovieBanner)
         binding.viewPagerMovieBanner.adapter!!.registerAdapterDataObserver(binding.circleIndicator.adapterDataObserver)
 
-        observeMovieBanners()
-        observeSliderMovieBanner()
-        observeCategories()
-        observePopularMovies()
-        observeTopRatedMovies()
         observeMovieHomePageEvents()
+        observeMovieBanners()
+
+
     }
 
     private fun observeMovieHomePageEvents() {
@@ -106,6 +111,12 @@ class MovieHomePageFragment : BaseFragment() {
                             event.movieDetailBasicInfo
                         )
                     )
+                }
+
+                MovieHomePageEvent.MovieBannerSlide -> {
+                    postDelay(initialDelay = 2000, period = 2000) {
+                        viewModel.slideMovieBanner()
+                    }
                 }
             }
         }
@@ -193,7 +204,8 @@ class MovieHomePageFragment : BaseFragment() {
     }
 
     private fun observeSliderMovieBanner() {
-        observeFlow(viewModel.bannerSliderPage) {
+        observeFlow(viewModel.bannerSliderPage,
+            lifecycleState = Lifecycle.State.STARTED) {
             binding.viewPagerMovieBanner.currentItem = it
         }
     }
@@ -203,8 +215,7 @@ class MovieHomePageFragment : BaseFragment() {
             viewModel.movieBannersFlow,
             lifecycleState = Lifecycle.State.CREATED
         ) { movieBanners ->
-            movieBannerAdapter.addAll(movieBanners)
-            viewModel.slideMovieBanner()
+            movieBannerAdapter.set(movieBanners)
         }
     }
 

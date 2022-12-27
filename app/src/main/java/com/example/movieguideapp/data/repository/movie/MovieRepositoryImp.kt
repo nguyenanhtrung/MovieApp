@@ -81,12 +81,6 @@ class MovieRepositoryImp @Inject constructor(private val remoteDataSource: Movie
         }.execute(Unit)
     }
 
-    override fun getMovieBannerSlidePageFlow(): Flow<Int> = FlowUtils.postDelayFlow(
-        data = listOf(0, 1, 2, 3),
-        initialDelay = 1.toDuration(DurationUnit.SECONDS),
-        period = 2.toDuration(DurationUnit.SECONDS)
-    )
-
     override suspend fun getMovieDetail(id: Int): WorkResult<MovieDetailBasicInfo> {
         return object : NetworkBoundResource<Int, MovieDetailBasicInfo>() {
             override suspend fun fetchFromNetwork(param: Int): MovieDetailBasicInfo {

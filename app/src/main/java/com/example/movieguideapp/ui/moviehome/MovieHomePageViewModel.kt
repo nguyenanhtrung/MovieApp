@@ -1,5 +1,6 @@
 package com.example.movieguideapp.ui.moviehome
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.movieguideapp.data.local.model.genre.MovieCategory
 import com.example.movieguideapp.data.local.model.movie.MovieBanner
@@ -17,6 +18,7 @@ import com.example.movieguideapp.extensions.updateState
 import com.example.movieguideapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -67,17 +69,22 @@ class MovieHomePageViewModel @Inject constructor(
             useCase = getMovieBannersUseCase,
             isShowLoading = false,
             onSuccess = { movies ->
-                _movieBanners.value = movies
+                viewModelScope.launch {
+                    _movieBanners.value = movies
+                    _movieHomePageEvent.send(MovieHomePageEvent.MovieBannerSlide)
+                }
             }
         )
     }
 
     internal fun slideMovieBanner() {
-        viewModelScope.launch {
-            movieRepository.getMovieBannerSlidePageFlow().collect { page ->
-                _bannerSliderPage.value = page
-            }
+        var index = _bannerSliderPage.value
+        if (index == _movieBanners.value.size - 1) {
+            index = 0
+        } else {
+            index++
         }
+        _bannerSliderPage.value = index
     }
 
     internal fun loadGenres() {
