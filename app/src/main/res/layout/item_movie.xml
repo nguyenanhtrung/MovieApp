@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    style="@style/Widget.Material3.CardView.Filled"
+    app:contentPadding="@dimen/normal_padding"
+    android:layout_height="150dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_item_movie"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/RoundedImageShapeAppearance"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/text_movie_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/App.Title.Large"
+            android:textColor="?colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_item_movie"
+            app:layout_constraintTop_toTopOf="@+id/image_item_movie"
+            tools:text="Movie Name" />
+
+        <RatingBar
+            android:id="@+id/rating_item_movie"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:rating="4"
+            android:layout_marginTop="@dimen/small_margin"
+            app:layout_constraintStart_toStartOf="@+id/text_movie_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_movie_name" />
+
+        <TextView
+            android:id="@+id/text_category_item_movie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:textColor="?colorSecondary"
+            app:layout_constraintEnd_toEndOf="@+id/text_movie_name"
+            app:layout_constraintStart_toStartOf="@+id/text_movie_name"
+            app:layout_constraintTop_toBottomOf="@+id/rating_item_movie"
+            tools:text="Adventure | Drama | Action" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

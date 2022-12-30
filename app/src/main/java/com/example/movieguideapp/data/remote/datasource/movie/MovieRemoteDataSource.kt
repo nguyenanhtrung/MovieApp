@@ -17,4 +17,5 @@ interface MovieRemoteDataSource {
     suspend fun getMovieCasts(id: Int): MovieDetailCastsResponse
 
     suspend fun getSimilarMovies(id: Int): MoviesResponse
+
 }

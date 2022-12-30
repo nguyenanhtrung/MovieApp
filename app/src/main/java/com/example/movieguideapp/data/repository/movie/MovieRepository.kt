@@ -5,6 +5,7 @@ import com.example.movieguideapp.data.local.model.cast.MovieDetailCastInfo
 import com.example.movieguideapp.data.local.model.movie.MovieBanner
 import com.example.movieguideapp.data.local.model.movie.MovieDetailBasicInfo
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageUiData
+import com.example.movieguideapp.data.local.model.movie.MovieItemData
 import com.example.movieguideapp.data.local.model.movie.MovieType
 import com.example.movieguideapp.data.local.model.movie.SimilarMovie
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,8 @@ import kotlinx.coroutines.flow.Flow
 interface MovieRepository {
 
     suspend fun getMovies(page: Int, movieType: MovieType): WorkResult<List<MovieHomePageUiData>>
+
+    suspend fun getMovies(param: Pair<Int, MovieType>): WorkResult<List<MovieItemData>>
 
     suspend fun getTrendingMovies(): WorkResult<List<MovieBanner>>
 

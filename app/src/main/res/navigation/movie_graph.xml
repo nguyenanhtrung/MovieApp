@@ -15,7 +15,12 @@
             android:id="@+id/action_movieHomePageFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_movieHomePageFragment_to_moviesFragment"
+            app:destination="@id/moviesFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailFragment"
@@ -26,4 +31,9 @@
             android:name="movieDetailBasicInfo"
             app:argType="com.example.movieguideapp.data.local.model.movie.MovieDetailBasicInfo" />
     </fragment>
+    <fragment
+        android:id="@+id/moviesFragment"
+        android:name="com.example.movieguideapp.ui.movies.MoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies" />
 </navigation>

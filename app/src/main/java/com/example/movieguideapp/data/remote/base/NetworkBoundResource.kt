@@ -10,6 +10,7 @@ abstract class NetworkBoundResource<P,M> {
         return try {
             if (shouldFetchFromNetwork(param)) {
                 val result = fetchFromNetwork(param)
+                saveLocal(result)
                 return WorkResult.Success(result)
             }
             val localData = fetchFromLocal(param)
@@ -27,4 +28,6 @@ abstract class NetworkBoundResource<P,M> {
     abstract suspend fun fetchFromNetwork(param: P): M
     abstract suspend fun fetchFromLocal(param: P): M
     open fun shouldFetchFromNetwork(param: P): Boolean = true
+
+    open suspend fun saveLocal(data: M) = Unit
 }

@@ -21,6 +21,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -70,8 +71,9 @@ class MovieHomePageViewModel @Inject constructor(
             isShowLoading = false,
             onSuccess = { movies ->
                 viewModelScope.launch {
-                    _movieBanners.value = movies
-                    _movieHomePageEvent.send(MovieHomePageEvent.MovieBannerSlide)
+                    _movieBanners.update {
+                        movies
+                    }
                 }
             }
         )
@@ -133,6 +135,10 @@ class MovieHomePageViewModel @Inject constructor(
     internal fun onClickPopularMovieItem(position: Int) {
         val popularMovies = popularMoviesFlow.value.items
         val selectedMovie = popularMovies[position]
+        loadMovieDetailInfo(selectedMovie)
+    }
+
+    private fun loadMovieDetailInfo(selectedMovie: MovieHomePageUiData) {
         executeUseCase(
             param = selectedMovie.id,
             useCase = getMovieDetailUseCase,
@@ -143,6 +149,12 @@ class MovieHomePageViewModel @Inject constructor(
                 }
             }
         )
+    }
+
+    internal fun onClickTopRatedMovieItem(position: Int) {
+        val topRatedMovies = topRatedMoviesFlow.value.items
+        val selectedMovie = topRatedMovies[position]
+        loadMovieDetailInfo(selectedMovie)
     }
 
 

@@ -4,6 +4,7 @@ import com.example.movieguideapp.data.local.model.cast.MovieDetailCastInfo
 import com.example.movieguideapp.data.local.model.genre.MovieCategory
 import com.example.movieguideapp.data.local.model.movie.MovieBanner
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageUiData
+import com.example.movieguideapp.data.local.model.movie.MovieItemData
 import com.example.movieguideapp.data.remote.response.Cast
 import com.example.movieguideapp.data.remote.response.Genre
 import com.example.movieguideapp.data.remote.response.Result
@@ -18,6 +19,16 @@ fun Result.mapTo(): MovieHomePageUiData {
         name = originalTitle ?: "",
         imageUrl = posterPath ?: "",
         rating = voteAverage ?: 0.0
+    )
+}
+
+fun Result.mapTo(category: String): MovieItemData {
+    return MovieItemData(
+        id = id ?: 0,
+        name = originalTitle ?: "",
+        imageUrl = posterPath ?: "",
+        rating = voteAverage ?: 0.0,
+        category = category
     )
 }
 

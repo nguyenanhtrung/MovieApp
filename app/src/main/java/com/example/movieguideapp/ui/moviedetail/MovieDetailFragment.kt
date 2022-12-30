@@ -81,6 +81,7 @@ class MovieDetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
+
         observeFlow(viewModel.basicInfoState) {
             with(binding) {
                 textNameMovieDetail.text = it.name
@@ -129,6 +130,10 @@ class MovieDetailFragment : BaseFragment() {
                 addItemDecoration(MarginItemDecoration(spaceSize = 8, spanCount = 4))
                 adapter = similarMoviesAdapter.getRecyclerViewAdapter()
             }
+        }
+
+        binding.imageButton.setOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
 

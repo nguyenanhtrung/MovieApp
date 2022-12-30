@@ -5,6 +5,7 @@ import com.example.movieguideapp.data.local.model.cast.MovieDetailCastInfo
 import com.example.movieguideapp.data.local.model.movie.MovieBanner
 import com.example.movieguideapp.data.local.model.movie.MovieDetailBasicInfo
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageUiData
+import com.example.movieguideapp.data.local.model.movie.MovieItemData
 import com.example.movieguideapp.data.local.model.movie.MovieType
 import com.example.movieguideapp.data.local.model.movie.SimilarMovie
 import com.example.movieguideapp.data.remote.base.NetworkBoundResource
@@ -31,6 +32,31 @@ class MovieRepositoryImp @Inject constructor(private val remoteDataSource: Movie
             MovieType.TOP_RATED -> getTopRatedMovies(page)
         }
     }
+
+    override suspend fun getMovies(param: Pair<Int, MovieType>): WorkResult<List<MovieItemData>> {
+        return object : NetworkBoundResource<Pair<Int, MovieType>, List<MovieItemData>>() {
+            override suspend fun fetchFromNetwork(param: Pair<Int, MovieType>): List<MovieItemData> {
+                val response = when(param.second) {
+                    MovieType.POPULAR -> {
+                        remoteDataSource.getPopularMovies(param.first)
+                    }
+                    MovieType.TOP_RATED -> {
+                        remoteDataSource.getPopularMovies(param.first)
+                    }
+                }
+                val movies = response.results ?: listOf()
+                return movies.map {
+                    it.mapTo("")
+                }
+            }
+
+            override suspend fun fetchFromLocal(param: Pair<Int, MovieType>): List<MovieItemData> {
+                return listOf()
+            }
+
+        }.execute(param)
+    }
+
 
     private suspend fun getPopularMovies(page: Int): WorkResult<List<MovieHomePageUiData>> {
         return object : NetworkBoundResource<Int, List<MovieHomePageUiData>>() {

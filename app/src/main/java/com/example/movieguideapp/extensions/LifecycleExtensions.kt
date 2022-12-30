@@ -13,12 +13,23 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 fun<T> LifecycleOwner.observeFlow(flow: StateFlow<T>,
+                                  viewLifecycleOwner: LifecycleOwner? = null,
                                   lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
                                   onCollected: (data: T) -> Unit) {
-    lifecycleScope.launch {
-        repeatOnLifecycle(lifecycleState) {
-            flow.collect {
-                onCollected(it)
+    if (viewLifecycleOwner != null) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(lifecycleState) {
+                flow.collect {
+                    onCollected(it)
+                }
+            }
+        }
+    } else {
+        lifecycleScope.launch {
+            repeatOnLifecycle(lifecycleState) {
+                flow.collect {
+                    onCollected(it)
+                }
             }
         }
     }
@@ -38,13 +49,10 @@ fun<T> LifecycleOwner.observeFlow(flow: Flow<T>,
 
 fun Fragment.postDelay(initialDelay: Long, period: Long, codeBlock: () -> Unit) {
     viewLifecycleOwner.lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED) {
-            delay(initialDelay)
-            while (true) {
-                codeBlock()
-                delay(period)
-            }
+        delay(initialDelay)
+        while (true) {
+            delay(period)
+            codeBlock()
         }
-
     }
 }

@@ -11,3 +11,10 @@ fun RecyclerView.addHorizontalItemSpace() {
     itemDecoration.setDrawable(ContextCompat.getDrawable(context, R.drawable.linear_space_item_decoration)!!)
     addItemDecoration(itemDecoration)
 }
+
+fun RecyclerView.addVerticalItemSpace() {
+    val itemDecoration = DividerItemDecoration(context, LinearLayout.HORIZONTAL)
+    itemDecoration.setDrawable(ContextCompat.getDrawable(context, R.drawable.vertical_space_item_decoration)!!)
+    addItemDecoration(itemDecoration)
+}
+
