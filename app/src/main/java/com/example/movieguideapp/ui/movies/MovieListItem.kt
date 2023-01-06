@@ -7,7 +7,7 @@ import com.example.movieguideapp.databinding.ItemMovieBinding
 import com.example.movieguideapp.extensions.loadAsync
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 
-class MovieListItem(private val movie: MovieItemData) : AbstractBindingItem<ItemMovieBinding>() {
+class MovieListItem(val movie: MovieItemData) : AbstractBindingItem<ItemMovieBinding>() {
     override val type: Int = movie.id
 
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ItemMovieBinding {

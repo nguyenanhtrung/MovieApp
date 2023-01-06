@@ -6,6 +6,7 @@ import com.example.movieguideapp.data.local.model.movie.MovieBanner
 import com.example.movieguideapp.data.local.model.movie.MovieDetailBasicInfo
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageUiData
 import com.example.movieguideapp.data.local.model.movie.MovieItemData
+import com.example.movieguideapp.data.local.model.movie.MovieSearchingParam
 import com.example.movieguideapp.data.local.model.movie.MovieType
 import com.example.movieguideapp.data.local.model.movie.SimilarMovie
 import kotlinx.coroutines.flow.Flow
@@ -25,4 +26,6 @@ interface MovieRepository {
     fun getMovieDetailInfo(movieDetailBasicInfo: MovieDetailBasicInfo): List<Pair<String, String>>
 
     suspend fun getSimilarMovies(id: Int): WorkResult<List<SimilarMovie>>
+
+    suspend fun searchMovies(query: String): WorkResult<List<MovieItemData>>
 }

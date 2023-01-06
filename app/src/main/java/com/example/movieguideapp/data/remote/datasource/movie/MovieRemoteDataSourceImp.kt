@@ -32,4 +32,8 @@ class MovieRemoteDataSourceImp @Inject constructor(private val movieApiService: 
     override suspend fun getSimilarMovies(id: Int): MoviesResponse {
         return movieApiService.getSimilarMovies(id)
     }
+
+    override suspend fun searchMovies(query: String): MoviesResponse {
+        return movieApiService.searchMovies(query)
+    }
 }

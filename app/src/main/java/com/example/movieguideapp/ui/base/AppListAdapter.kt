@@ -16,4 +16,6 @@ interface AppListAdapter<T> {
     fun hideLoading()
 
     fun getRecyclerViewAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
+
+    fun filter(query: String)
 }

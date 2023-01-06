@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieguideapp.data.local.model.genre.MovieCategory
 import com.example.movieguideapp.data.local.model.movie.MovieBanner
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageEvent
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageUiData
+import com.example.movieguideapp.data.local.model.movie.MovieType
 import com.example.movieguideapp.databinding.FragmentMovieHomePageBinding
 import com.example.movieguideapp.extensions.addHorizontalItemSpace
 import com.example.movieguideapp.extensions.mapTo
@@ -27,10 +27,6 @@ import com.example.movieguideapp.ui.home.MainViewModel
 import com.example.movieguideapp.utils.MovieHomePageDiffCallback
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.NonCancellable.isActive
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieHomePageFragment : BaseFragment() {
@@ -126,6 +122,22 @@ class MovieHomePageFragment : BaseFragment() {
             viewModel.onClickPopularMovieItem(position)
         }
 
+        binding.textPopularMovieSeeMore.setOnClickListener {
+            findNavController().navigate(
+                MovieHomePageFragmentDirections.actionMovieHomePageFragmentToMoviesFragment(
+                    MovieType.POPULAR
+                )
+            )
+        }
+
+        binding.textTopRatedMovieSeeMore.setOnClickListener {
+            findNavController().navigate(
+                MovieHomePageFragmentDirections.actionMovieHomePageFragmentToMoviesFragment(
+                    MovieType.TOP_RATED
+                )
+            )
+        }
+
         topRatedMovieAdapter.setOnItemClickListener {
             viewModel.onClickTopRatedMovieItem(it)
         }
@@ -133,7 +145,7 @@ class MovieHomePageFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        postDelay(1000,2000) {
+        postDelay(1000, 2000) {
             viewModel.slideMovieBanner()
         }
     }
@@ -214,9 +226,11 @@ class MovieHomePageFragment : BaseFragment() {
     }
 
     private fun observeSliderMovieBanner() {
-        observeFlow(viewModel.bannerSliderPage,
+        observeFlow(
+            viewModel.bannerSliderPage,
             viewLifecycleOwner = viewLifecycleOwner,
-            lifecycleState = Lifecycle.State.STARTED) {
+            lifecycleState = Lifecycle.State.STARTED
+        ) {
             binding.viewPagerMovieBanner.currentItem = it
         }
     }

@@ -10,17 +10,18 @@ import com.example.movieguideapp.data.local.model.movie.MovieType
 import com.example.movieguideapp.data.local.model.movie.SimilarMovie
 import com.example.movieguideapp.data.remote.base.NetworkBoundResource
 import com.example.movieguideapp.data.remote.datasource.movie.MovieRemoteDataSource
+import com.example.movieguideapp.data.remote.response.MoviesResponse
+import com.example.movieguideapp.data.repository.genre.GenreRepository
 import com.example.movieguideapp.extensions.getOrEmpty
 import com.example.movieguideapp.extensions.mapTo
 import com.example.movieguideapp.extensions.mapToMovieBanner
 import com.example.movieguideapp.utils.DateTimeUtils
-import com.example.movieguideapp.utils.FlowUtils
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
-class MovieRepositoryImp @Inject constructor(private val remoteDataSource: MovieRemoteDataSource) :
+class MovieRepositoryImp @Inject constructor(
+    private val remoteDataSource: MovieRemoteDataSource,
+    private val genreRepository: GenreRepository
+) :
     MovieRepository {
 
     override suspend fun getMovies(
@@ -33,21 +34,41 @@ class MovieRepositoryImp @Inject constructor(private val remoteDataSource: Movie
         }
     }
 
+    override suspend fun searchMovies(query: String): WorkResult<List<MovieItemData>> {
+        return object : NetworkBoundResource<String, List<MovieItemData>>() {
+            override suspend fun fetchFromNetwork(param: String): List<MovieItemData> {
+                val response = remoteDataSource.searchMovies(param)
+                return getMovieItemDataList(response)
+            }
+
+            override suspend fun fetchFromLocal(param: String): List<MovieItemData> {
+                return listOf()
+            }
+
+        }.execute(param = query)
+    }
+
+    private fun getMovieItemDataList(response: MoviesResponse): List<MovieItemData> {
+        val movies = response.results ?: listOf()
+        return movies.map {
+            val category = genreRepository.getMovieGenresName(it.genreIds ?: listOf())
+            it.mapTo(category)
+        }
+    }
+
     override suspend fun getMovies(param: Pair<Int, MovieType>): WorkResult<List<MovieItemData>> {
         return object : NetworkBoundResource<Pair<Int, MovieType>, List<MovieItemData>>() {
             override suspend fun fetchFromNetwork(param: Pair<Int, MovieType>): List<MovieItemData> {
-                val response = when(param.second) {
+                val response = when (param.second) {
                     MovieType.POPULAR -> {
                         remoteDataSource.getPopularMovies(param.first)
                     }
+
                     MovieType.TOP_RATED -> {
-                        remoteDataSource.getPopularMovies(param.first)
+                        remoteDataSource.getTopRatedMovies(param.first)
                     }
                 }
-                val movies = response.results ?: listOf()
-                return movies.map {
-                    it.mapTo("")
-                }
+                return getMovieItemDataList(response)
             }
 
             override suspend fun fetchFromLocal(param: Pair<Int, MovieType>): List<MovieItemData> {

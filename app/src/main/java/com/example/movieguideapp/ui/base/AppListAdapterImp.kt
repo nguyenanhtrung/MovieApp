@@ -11,21 +11,26 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import com.mikepenz.fastadapter.diff.DiffCallback
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
+import com.mikepenz.fastadapter.listeners.ItemFilterListener
 
 class AppListAdapterImp<M, I>(
     private val listItems: List<M>,
     private val transform: (model: M) -> I,
-    private val diffCallback: DiffCallback<I>? = null
+    private val diffCallback: DiffCallback<I>? = null,
+    private val filterPredicate: ((item: I, constraint: CharSequence?) -> Boolean)? = null,
+    private val itemFilterListener: ItemFilterListener<I>? = null
 ): AppListAdapter<M> where I : GenericItem {
 
     private val fastAdapter: GenericFastAdapter
-    private val itemAdapter: GenericItemAdapter = ItemAdapter()
+    private val itemAdapter: ItemAdapter<I> = ItemAdapter()
     private val alternativeAdapter: GenericItemAdapter = ItemAdapter()
 
     init {
         fastAdapter = FastAdapter.Companion.with(listOf(alternativeAdapter, itemAdapter))
         val uiItems = listItems.map { transform(it) }
         itemAdapter.add(uiItems)
+        itemAdapter.itemFilter.filterPredicate = filterPredicate
+        itemAdapter.itemFilter.itemFilterListener = itemFilterListener
     }
 
     override fun add(item: M) {
@@ -65,6 +70,10 @@ class AppListAdapterImp<M, I>(
 
     override fun showLoading() {
         alternativeAdapter.add(ProgressItem())
+    }
+
+    override fun filter(query: String) {
+        itemAdapter.filter(query)
     }
 
     override fun getRecyclerViewAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> = fastAdapter

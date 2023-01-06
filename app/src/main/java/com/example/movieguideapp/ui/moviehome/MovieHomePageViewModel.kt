@@ -1,6 +1,5 @@
 package com.example.movieguideapp.ui.moviehome
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.movieguideapp.data.local.model.genre.MovieCategory
 import com.example.movieguideapp.data.local.model.movie.MovieBanner
@@ -11,17 +10,15 @@ import com.example.movieguideapp.data.local.model.movie.MovieType
 import com.example.movieguideapp.data.repository.movie.MovieRepository
 import com.example.movieguideapp.domain.genre.GetMovieGenresUseCase
 import com.example.movieguideapp.domain.movie.GetMovieBannersUseCase
-import com.example.movieguideapp.domain.movie.GetMoviesUseCase
+import com.example.movieguideapp.domain.movie.GetHomePageMoviesUseCase
 import com.example.movieguideapp.domain.moviedetail.GetMovieDetailUseCase
 import com.example.movieguideapp.extensions.update
 import com.example.movieguideapp.extensions.updateState
 import com.example.movieguideapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,7 +28,7 @@ import javax.inject.Inject
 class MovieHomePageViewModel @Inject constructor(
     private val getMovieBannersUseCase: GetMovieBannersUseCase,
     private val getGenresUseCase: GetMovieGenresUseCase,
-    private val getMoviesUseCase: GetMoviesUseCase,
+    private val getHomePageMoviesUseCase: GetHomePageMoviesUseCase,
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
     private val movieRepository: MovieRepository
 ) :
@@ -103,7 +100,7 @@ class MovieHomePageViewModel @Inject constructor(
     internal fun loadPopularMovies(page: Int = 1) {
         executeUseCase(
             param = Pair(page, MovieType.POPULAR),
-            useCase = getMoviesUseCase,
+            useCase = getHomePageMoviesUseCase,
             isShowLoading = false,
             onSuccess = {
                 _popularMoviesFlow.updateState { currentState ->
@@ -119,7 +116,7 @@ class MovieHomePageViewModel @Inject constructor(
     internal fun loadTopRatedMovies(page: Int = 1) {
         executeUseCase(
             param = Pair(page, MovieType.TOP_RATED),
-            useCase = getMoviesUseCase,
+            useCase = getHomePageMoviesUseCase,
             isShowLoading = false,
             onSuccess = {
                 _topRatedMoviesFlow.updateState { currentState ->

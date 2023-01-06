@@ -5,4 +5,6 @@ import com.example.movieguideapp.data.local.model.genre.MovieCategory
 
 interface GenreRepository {
     suspend fun getMovieGenres(): WorkResult<List<MovieCategory>>
+
+    fun getMovieGenresName(genreIds: List<Int>): String
 }

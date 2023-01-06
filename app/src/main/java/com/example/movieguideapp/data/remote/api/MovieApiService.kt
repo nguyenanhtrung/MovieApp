@@ -30,4 +30,7 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovies(@Path("movie_id") id: Int): MoviesResponse
+
+    @GET("search/movie")
+    suspend fun searchMovies(@Query("query") query: String): MoviesResponse
 }

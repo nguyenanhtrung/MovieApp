@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/tvShowHomePagerFragment"
-        android:name="com.example.movieguideapp.ui.tvshowhome.TvShowHomePagerFragment"
+        android:name="com.example.movieguideapp.ui.tvshowhome.TvShowHomePageFragment"
         android:label="fragment_tv_show_home_page"
         tools:layout="@layout/fragment_tv_show_home_page" />
 </navigation>

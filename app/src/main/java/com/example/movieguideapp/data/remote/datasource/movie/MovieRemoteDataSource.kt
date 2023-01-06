@@ -18,4 +18,6 @@ interface MovieRemoteDataSource {
 
     suspend fun getSimilarMovies(id: Int): MoviesResponse
 
+    suspend fun searchMovies(query: String): MoviesResponse
+
 }
