@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieguideapp.R
 import com.example.movieguideapp.data.local.model.genre.MovieCategory
 import com.example.movieguideapp.data.local.model.movie.MovieBanner
 import com.example.movieguideapp.data.local.model.movie.MovieHomePageEvent
@@ -100,8 +101,9 @@ class MovieHomePageFragment : BaseFragment() {
         observeMovieBanners()
         observeCategories()
 
-
     }
+
+
 
     private fun observeMovieHomePageEvents() {
         observeFlow(viewModel.movieHomePageEvent) { event ->
@@ -179,6 +181,8 @@ class MovieHomePageFragment : BaseFragment() {
     }
 
     private fun setupUi() {
+        binding.toolbar.inflateMenu(R.menu.menu_search)
+
         with(binding.recyclerViewMovieCategories) {
             layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
